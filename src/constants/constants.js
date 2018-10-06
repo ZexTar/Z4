@@ -1,0 +1,3 @@
+const FLIP_CARD = 'FLIP_CARD';
+const RESTART_GAME = 'RESTART_GAME';
+export default [FLIP_CARD, RESTART_GAME];

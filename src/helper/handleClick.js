@@ -1,4 +1,5 @@
 const hc = {};
+let compare = [];
 
 hc.flipClicked = (arr, id) => {
 	arr.forEach((el) => {
@@ -40,6 +41,7 @@ hc.hideUnmatched = (arr) => {
 };
 
 hc.shuffle = (cards) => {
+	compare = [];
 	for (let i = cards.length - 1; i > 0; i -= 1) {
 		if (i !== 4 && i !== 9 && i !== 14) {
 			const j = Math.floor(Math.random() * (i + 1));
@@ -51,5 +53,30 @@ hc.shuffle = (cards) => {
 
 	return cards;
 };
+
+hc.update = (state, action) => {
+	const newState = state.toJS();
+	if (hc.flippedNumber(newState.cards) < 2) {
+		if (compare.length < 2) {
+			compare.push(action.genKey);
+		}
+
+		hc.flipClicked(newState.cards, action.id);
+		hc.solveMatched(newState.cards, compare);
+
+		return newState;
+	}
+
+	if (hc.flippedNumber(newState.cards) === 2) {
+		compare = [];
+		hc.hideUnmatched(newState.cards);
+		hc.flipClicked(newState.cards, action.id);
+		if (compare.length < 2) {
+			compare.push(action.genKey);
+		}
+
+			return newState;
+		}
+}
 
 export default hc;

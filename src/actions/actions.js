@@ -1,6 +1,6 @@
-import constants from '../constants/constants';
+import actionTypes from '../constants/actiontypes';
 
-const [FLIP_CARD, RESTART_GAME] = constants;
+const [FLIP_CARD, RESTART_GAME] = actionTypes;
 
 export default {
 	flipCard: (id, genKey) => ({

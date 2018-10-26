@@ -1,43 +1,17 @@
-// import _ from 'lodash';
 import { fromJS } from 'immutable';
 import cards from '../data/cards';
-import constants from '../constants/constants';
+import actionTypes from '../constants/actiontypes';
 import hc from '../helper/handleClick';
 
-const [FLIP_CARD, RESTART_GAME] = constants;
-let compare = [];
+const [FLIP_CARD, RESTART_GAME] = actionTypes;
 const initialState = { cards };
 
 const update = (state = fromJS(initialState), action = {}) => {
-	const newState = state.toJS();
-
 	switch (action.type) {
 	case FLIP_CARD:
-		if (hc.flippedNumber(newState.cards) < 2) {
-			if (compare.length < 2) {
-				compare.push(action.genKey);
-			}
-
-			hc.flipClicked(newState.cards, action.id);
-			hc.solveMatched(newState.cards, compare);
-
-			return fromJS(newState);
-		}
-
-		if (hc.flippedNumber(newState.cards) === 2) {
-			compare = [];
-			hc.hideUnmatched(newState.cards);
-			hc.flipClicked(newState.cards, action.id);
-			if (compare.length < 2) {
-				compare.push(action.genKey);
-			}
-
-			return fromJS(newState);
-		}
-		break;
+		return fromJS(hc.update(state, action));
 
 	case RESTART_GAME:
-		compare = [];
 		hc.shuffle(initialState.cards);
 
 		return fromJS(initialState);
@@ -45,8 +19,6 @@ const update = (state = fromJS(initialState), action = {}) => {
 	default:
 		return state;
 	}
-
-	return state;
 };
 
 export default update;

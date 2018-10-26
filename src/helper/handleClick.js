@@ -1,12 +1,15 @@
 const hc = {};
 let compare = [];
 
-hc.flipClicked = (arr, id) => {
-	arr.forEach((el) => {
+hc.flipClicked = (state, id) => {
+	const modState = Object.assign({}, state);
+	modState.cards.forEach((el) => {
 		if (el.id === id) {
 			el.flipped = 'true';
 		}
 	});
+
+	return modState;
 };
 
 hc.flippedNumber = (arr) => {
@@ -20,24 +23,28 @@ hc.flippedNumber = (arr) => {
 	return flippedCards;
 };
 
-hc.solveMatched = (arr, compare) => {
+hc.solveMatched = (state, compare) => {
+	const modState = Object.assign({}, state);
 	if (compare.length === 2 && compare[0] === compare[1]) {
-		arr.forEach((el) => {
+		modState.cards.forEach((el) => {
 			if (el.genKey === compare[0]) {
 				el.solved = 'true';
 			}
 		});
 	}
+
+	return modState;
 };
 
-hc.hideUnmatched = (arr) => {
-	if (hc.flippedNumber(arr) === 2) {
-		arr.forEach((el) => {
+hc.hideUnmatched = (state) => {
+	const modState = Object.assign({}, state);
+	if (hc.flippedNumber(modState.cards) === 2) {
+		modState.cards.forEach((el) => {
 			el.flipped = 'false';
 		});
 	}
 
-	return arr;
+	return modState;
 };
 
 hc.shuffle = (cards) => {
@@ -61,22 +68,18 @@ hc.update = (state, action) => {
 			compare.push(action.genKey);
 		}
 
-		hc.flipClicked(newState.cards, action.id);
-		hc.solveMatched(newState.cards, compare);
-
-		return newState;
+		return hc.solveMatched(hc.flipClicked(newState, action.id), compare);
 	}
 
 	if (hc.flippedNumber(newState.cards) === 2) {
 		compare = [];
-		hc.hideUnmatched(newState.cards);
-		hc.flipClicked(newState.cards, action.id);
+
 		if (compare.length < 2) {
 			compare.push(action.genKey);
 		}
 
-			return newState;
-		}
+		return hc.flipClicked(hc.hideUnmatched(newState), action.id);
+	}
 }
 
 export default hc;

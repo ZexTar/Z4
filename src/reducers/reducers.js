@@ -1,5 +1,5 @@
-import _ from 'lodash';
-import { Map } from 'immutable';
+// import _ from 'lodash';
+import { fromJS } from 'immutable';
 import cards from '../data/cards';
 import constants from '../constants/constants';
 import hc from '../helper/handleClick';
@@ -8,8 +8,8 @@ const [FLIP_CARD, RESTART_GAME] = constants;
 let compare = [];
 const initialState = { cards };
 
-const update = (state = Map(initialState), action = {}) => {
-	const newState = _.cloneDeep(state.toJS());
+const update = (state = fromJS(initialState), action = {}) => {
+	const newState = state.toJS();
 
 	switch (action.type) {
 	case FLIP_CARD:
@@ -21,7 +21,7 @@ const update = (state = Map(initialState), action = {}) => {
 			hc.flipClicked(newState.cards, action.id);
 			hc.solveMatched(newState.cards, compare);
 
-			return Map(newState);
+			return fromJS(newState);
 		}
 
 		if (hc.flippedNumber(newState.cards) === 2) {
@@ -32,7 +32,7 @@ const update = (state = Map(initialState), action = {}) => {
 				compare.push(action.genKey);
 			}
 
-			return Map(newState);
+			return fromJS(newState);
 		}
 		break;
 
@@ -40,7 +40,7 @@ const update = (state = Map(initialState), action = {}) => {
 		compare = [];
 		hc.shuffle(initialState.cards);
 
-		return Map(initialState);
+		return fromJS(initialState);
 
 	default:
 		return state;

@@ -9,7 +9,6 @@ import registerServiceWorker from './registerServiceWorker';
 import 'tachyons';
 
 const store = createStore(update);
-window.store = store;
 
 ReactDOM.render(
 	<Provider store={store}>

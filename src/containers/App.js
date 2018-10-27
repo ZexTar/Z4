@@ -2,7 +2,7 @@ import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import CardList from '../components/CardList';
+import Cards from '../components/Cards';
 import Restart from '../components/Restart';
 import allActions from '../actions/actions';
 import './App.css';
@@ -21,7 +21,7 @@ const App = (props) => {
 	return (
 		<div>
 			<div className="cards">
-				<CardList flipCard={actions.flipCard} cards={cards} />
+				<Cards flipCard={actions.flipCard} cards={cards} />
 			</div>
 			<Restart restart={actions.restart} />
 		</div>

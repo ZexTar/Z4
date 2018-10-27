@@ -1,0 +1,48 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+
+const img1 = 'https://d1u5p3l4wpay3k.cloudfront.net/hearthstone_gamepedia/d/df/Card_back-Ragnaros.png?version=58a5ef605a105d350b1e8d4da1873ac8';
+const img2 = 'https://cdn.shopify.com/s/files/1/0405/8713/products/light_blue_-_prisma_grande.jpg?v=1420163357';
+
+const Cards = ({ flipCard, cards }) => {
+	const cardArr = cards.map((card, i) => {
+		if (i === 4 || i === 9 || i === 14) {
+			return <div key={cards[i].id} />;
+		}
+
+		if (card.solved === 'true') {
+			return (
+				<div key ={card.id} className="tc grow bg-light-green br3 pa1 ma2 dib bw2 shadow-5" role="presentation">
+					<img alt="robots" height="150" width="200" src={img2} />
+				</div>
+			);
+		}
+
+		if (card.flipped === 'false') {
+			return (
+				<div key ={card.id} onClick={() => flipCard(card.id, card.genKey)} className="tc grow bg-light-green br3 pa1 ma2 dib bw2 shadow-5" role="presentation">
+						<img alt="robots" height="150" width="200" src={img1} />
+				</div>
+			);
+		}
+
+		return (
+			<div key ={card.id} className="tc grow bg-light-green br3 pa1 ma2 dib bw2 shadow-5" role="presentation">
+				<img alt="robots" height="150" width="200" src={`https://robohash.org/${card.genKey}?size=200x200`} />
+			</div>
+		);
+	});
+
+	return (
+		<div>
+			{cardArr}
+		</div>
+	);
+};
+
+Cards.propTypes = {
+	flipCard: PropTypes.func.isRequired,
+	cards: PropTypes.arrayOf(PropTypes.object).isRequired,
+};
+
+export default Cards;

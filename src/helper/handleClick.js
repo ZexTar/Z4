@@ -5,7 +5,7 @@ hc.flipClicked = (state, id) => {
 	let update = state;
 	state.get('cards').map((el, i) => {
 		if (el.get('id') === id) {
-			update = state.setIn(['cards', i, 'flipped'], 'true'); 
+			update = state.setIn(['cards', i, 'flipped'], 'true');
 		}
 
 		return 0;
@@ -27,7 +27,7 @@ hc.flippedNumber = (state) => {
 	return flippedCards;
 };
 
-hc.solveMatched = (state, compare) => {
+hc.solveMatched = (state) => {
 	let update = state;
 	if (compare.length === 2 && compare[0] === compare[1]) {
 		state.get('cards').map((el, i) => {
@@ -37,7 +37,7 @@ hc.solveMatched = (state, compare) => {
 
 			return 0;
 		});
-	} 
+	}
 
 	return update;
 };
@@ -48,7 +48,7 @@ hc.hideUnmatched = (state) => {
 		state.get('cards').map((el, i) => {
 			update = update.setIn(['cards', i, 'flipped'], 'false');
 
-			return 0; 
+			return 0;
 		});
 	}
 
@@ -90,6 +90,8 @@ hc.update = (state, action) => {
 
 		return hc.flipClicked(hc.hideUnmatched(state), action.id);
 	}
-}
+
+	return state;
+};
 
 export default hc;

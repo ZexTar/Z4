@@ -7,28 +7,28 @@ const img2 = 'https://cdn.shopify.com/s/files/1/0405/8713/products/light_blue_-_
 const Cards = ({ flipCard, cards }) => {
 	const cardArr = cards.map((card, i) => {
 		if (i === 4 || i === 9 || i === 14) {
-			return <div key={cards[i].id} />;
+			return <div key={card.get('id')} />;
 		}
 
-		if (card.solved === 'true') {
+		if (card.get('solved') === 'true') {
 			return (
-				<div key ={card.id} className="tc grow bg-light-green br3 pa1 ma2 dib bw2 shadow-5" role="presentation">
+				<div key={card.get('id')} className="tc grow bg-light-green br3 pa1 ma2 dib bw2 shadow-5" role="presentation">
 					<img alt="robots" height="150" width="200" src={img2} />
 				</div>
 			);
 		}
 
-		if (card.flipped === 'false') {
+		if (card.get('flipped') === 'false') {
 			return (
-				<div key ={card.id} onClick={() => flipCard(card.id, card.genKey)} className="tc grow bg-light-green br3 pa1 ma2 dib bw2 shadow-5" role="presentation">
-						<img alt="robots" height="150" width="200" src={img1} />
+				<div key={card.get('id')} onClick={() => flipCard(card.get('id'), card.get('genKey'))} className="tc grow bg-light-green br3 pa1 ma2 dib bw2 shadow-5" role="presentation">
+					<img alt="robots" height="150" width="200" src={img1} />
 				</div>
 			);
 		}
 
 		return (
-			<div key ={card.id} className="tc grow bg-light-green br3 pa1 ma2 dib bw2 shadow-5" role="presentation">
-				<img alt="robots" height="150" width="200" src={`https://robohash.org/${card.genKey}?size=200x200`} />
+			<div key={card.get('id')} className="tc grow bg-light-green br3 pa1 ma2 dib bw2 shadow-5" role="presentation">
+				<img alt="robots" height="150" width="200" src={`https://robohash.org/${card.get('genKey')}?size=200x200`} />
 			</div>
 		);
 	});
@@ -42,7 +42,12 @@ const Cards = ({ flipCard, cards }) => {
 
 Cards.propTypes = {
 	flipCard: PropTypes.func.isRequired,
-	cards: PropTypes.arrayOf(PropTypes.object).isRequired,
+	cards: PropTypes.shape({
+		id: PropTypes.number,
+		genKey: PropTypes.number,
+		flipped: PropTypes.string,
+		solved: PropTypes.string,
+	}).isRequired,
 };
 
 export default Cards;

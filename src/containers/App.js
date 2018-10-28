@@ -8,7 +8,7 @@ import allActions from '../actions/actions';
 import './App.css';
 
 const mapStateToProps = state => ({
-	cards: state.toJS().cards,
+	cards: state.get('cards'),
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -29,7 +29,12 @@ const App = (props) => {
 };
 
 App.propTypes = {
-	cards: PropTypes.arrayOf(PropTypes.object).isRequired,
+	cards: PropTypes.shape({
+		id: PropTypes.number,
+		genKey: PropTypes.number,
+		flipped: PropTypes.string,
+		solved: PropTypes.string,
+	}).isRequired,
 	actions: PropTypes.objectOf(PropTypes.func).isRequired,
 };
 

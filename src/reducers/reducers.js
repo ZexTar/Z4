@@ -15,7 +15,6 @@ const update = (state = fromJS(initialState), action = {}) => {
 
 	default:
 		return state;
-
 	}
 };
 

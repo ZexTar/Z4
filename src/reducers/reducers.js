@@ -9,15 +9,13 @@ const initialState = { cards };
 const update = (state = fromJS(initialState), action = {}) => {
 	switch (action.type) {
 	case FLIP_CARD:
-		return fromJS(hc.update(state, action));
-
+		return hc.update(state, action);
 	case RESTART_GAME:
-		hc.shuffle(initialState.cards);
-
-		return fromJS(initialState);
+		return fromJS(hc.shuffle(initialState));
 
 	default:
 		return state;
+
 	}
 };
 
